@@ -1,3 +1,11 @@
+//============================================================================
+//
+// COPYRIGHT KONINKLIJKE PHILIPS ELECTRONICS N.V. 2019
+// All rights are reserved. Reproduction in whole or in part is
+// prohibited without the written consent of the copyright owner.
+//
+//============================================================================ 
+
 #pragma once
 
 #include <iostream> 
@@ -14,32 +22,31 @@
 
 namespace alertingsystem
 {
-	int index = 0;
+	//this function will generate the json data using randomizeDouble() function for patient id, sp02,pulserate,temperature.
 	string DataProvider::generateData()
 	{
-		int id = (int)randomizeDouble(1111, 9999);
+		if (m_idCounter == 0)
+		{
+			m_patientId = (int)randomizeDouble(1111, 9999);
+		}
+		m_idCounter += 1;
+
+		if (m_idCounter == 10)
+		{
+			m_idCounter = 0;
+		}
+
 		double spo2 = randomizeDouble(MIN_SPO2, MAX_SPO2 + 0.5);
 		double pulseRate = randomizeDouble(MIN_PULSE_RATE, MAX_PULSE_RATE + 0.5);
 		double temperature = randomizeDouble(MIN_TEMPERATURE, MAX_TEMPERATURE + 0.5);
-		//list<std::string>::iterator it = m_jsonDataList.begin();
 
-		//// Advance the iterator by index positions,
-		//std::advance(it, index);
-
-		//index = index + 1;
-
-		//if (index == m_jsonDataList.size())
-		//{
-		//	index = 0;
-		//}
-
-		//return *it;
-		return 
-			"{patient id: Patient_" + std::to_string(id) + ", SPO2 :" + std::to_string(spo2) +
+	    return
+			"{patient id: Patient_" + std::to_string(m_patientId) + ", SPO2 :" + std::to_string(spo2) +
 			", pulse rate : " + std::to_string(pulseRate) + 
 			", temperature : " + std::to_string(temperature) + " }";
 	}
 
+	//this function has timer which calls printData() and pushDataToBuffer() every 10 seconds.
 	void DataProvider::startOperation()
 	{
 		std::chrono::seconds interval(INTERVAL); // 10 seconds
@@ -55,12 +62,14 @@ namespace alertingsystem
 		}
 	}
 
+	//prints the data on the console every 10 seconds.
 	void DataProvider::printData(string strData)
 	{
 		cout <<  yellow<< (strData);
 		cout << '\n';
 	}
 
+	//this function pushes the data to the buffer.
 	void DataProvider::pushDataToBuffer(PatientData patientData)
 	{
 		//PatientData tempPatientData(patientData.m_patientId, patientData.m_SPO2, patientData.m_pulseRate, patientData.m_temperature);

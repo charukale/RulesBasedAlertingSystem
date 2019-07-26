@@ -1,5 +1,14 @@
+//============================================================================
+//
+// COPYRIGHT KONINKLIJKE PHILIPS ELECTRONICS N.V. 2019
+// All rights are reserved. Reproduction in whole or in part is
+// prohibited without the written consent of the copyright owner.
+//
+//============================================================================ 
+
 #pragma once
 
+//this header file contains all the constant member variables which are being declared and initialized.
 namespace alertingsystem
 {
 	const char COMMA_DELIMETER = ',';
@@ -10,10 +19,19 @@ namespace alertingsystem
 	const double MAX_PULSE_RATE = 100;
 	const double MIN_SPO2 = 95;
 	const double MAX_SPO2 = 100;
-	const int INTERVAL = 5;
+	const int INTERVAL = 4;
 
+	//this function randomly generates patient's information in json format.
 	static double randomizeDouble(double nMin, double nMax)
 	{
 		return nMin + (double)((double)rand() / (RAND_MAX + 1) * (nMax - nMin + 1));
 	}
+
+	// Type of data
+	enum ItemType
+	{
+		SPO2,
+		PulseRate,
+		Temperature
+	};
 }

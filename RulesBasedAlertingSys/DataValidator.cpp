@@ -1,3 +1,11 @@
+//============================================================================
+//
+// COPYRIGHT KONINKLIJKE PHILIPS ELECTRONICS N.V. 2019
+// All rights are reserved. Reproduction in whole or in part is
+// prohibited without the written consent of the copyright owner.
+//
+//============
+
 #pragma once
 
 #include<iostream>
@@ -11,6 +19,8 @@ using namespace std;
 
 namespace alertingsystem
 {
+	// Function to validate the data present in buffer
+	// If data is out of range then alert the nurse.
 	void DataValidator::validateData()
 	{
 		std::chrono::seconds interval(INTERVAL); // 10 seconds
@@ -26,23 +36,23 @@ namespace alertingsystem
 			//normal range PR 60 - 100
 			double pulseRate = patientData.m_pulseRate;
 
-			bool isSPO2InRange = checkSPO2(spo2);
-			bool isTemperatureInRange = checkTemperature(temperature);
-			bool isPulseRateInRange = checkPulseRate(pulseRate);
+			bool isSPO2InRange = checkItem(ItemType::SPO2, spo2);
+			bool isTemperatureInRange = checkItem(ItemType::Temperature, temperature);
+			bool isPulseRateInRange = checkItem(ItemType::PulseRate, pulseRate);
 
 			if (!isSPO2InRange)
 			{
-				cout << red  << "Alert!!! SPO2 not in range. SPO2:" << spo2 << " for patient " << id;
+				cout << red  << "Alert!!! SPO2 not in range. SPO2:" << spo2 << " for patient " << blue << id;
 				cout << endl;
 			}
 			if (!isTemperatureInRange)
 			{
-				cout << red << "Alert!!! Temparature not in range. Temparature:" << temperature << " for patient " << id;
+				cout << red << "Alert!!! Temparature not in range. Temparature:" << temperature << " for patient " << blue << id;
 				cout << endl;
 			}
 			if (!isPulseRateInRange)
 			{
-				cout << red << "Alert!!! Pulse Rate not in range. Pulse Rate:" << pulseRate << " for patient " << id;
+				cout << red << "Alert!!! Pulse Rate not in range. Pulse Rate:" << pulseRate << " for patient " << blue << id;
 				cout << endl;
 			}
 
@@ -56,40 +66,44 @@ namespace alertingsystem
 		}		
 	}
 
-	bool DataValidator::checkSPO2(double spo2)
+	// Check the value for the data type.
+	// If value is in raneg, return true else false.
+	bool DataValidator::checkItem(ItemType itemType, double itemValue)
 	{
-		if (spo2 > MIN_SPO2 && spo2 < MAX_SPO2)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+		bool isInRange = false;
 
-	bool DataValidator::checkTemperature(double temp)
-	{
-		if (temp > MIN_TEMPERATURE && temp < MAX_TEMPERATURE)
+		switch (itemType)
 		{
-			return true;
-		}
-		else
+		case ItemType::SPO2:
 		{
-			return false;
+			if (itemValue > MIN_SPO2 && itemValue < MAX_SPO2)
+			{
+				isInRange = true;
+			}
 		}
-	}
+		break;
+		case ItemType::PulseRate:
+		{
+			if (itemValue > MIN_PULSE_RATE && itemValue < MAX_PULSE_RATE)
+			{
+				isInRange = true;
+			}
+		}
+		break;
+		case ItemType::Temperature:
+		{
+			if (itemValue > MIN_TEMPERATURE && itemValue < MAX_TEMPERATURE)
+			{
+				isInRange = true;
+			}
+		}
+		break;
+		default:
+			break; {
+			}
+		}	
 
-	bool DataValidator::checkPulseRate(double pulseRate)
-	{
-		if (pulseRate > MIN_PULSE_RATE && pulseRate < MAX_PULSE_RATE)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return isInRange;
 	}
 }
 

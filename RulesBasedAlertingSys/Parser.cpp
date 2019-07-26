@@ -1,3 +1,11 @@
+//============================================================================
+//
+// COPYRIGHT KONINKLIJKE PHILIPS ELECTRONICS N.V. 2019
+// All rights are reserved. Reproduction in whole or in part is
+// prohibited without the written consent of the copyright owner.
+//
+//============================================================================ 
+
 #include<iostream>
 #include <vector>
 #include <string>
@@ -11,11 +19,13 @@ using namespace std;
 
 namespace alertingsystem
 {
-	//{"patient id": "TRJIW432", "SPO2": 96, "pulse rate": 75, "temperature": 98.6 }
+	//vector to store the patient information which has been split by comma
+	static std::vector<std::string> splitByComma;
+	//vector to store the patient information which has been split by colon
+	static std::vector<std::string> splitByColon;
 
-	std::vector<std::string> splitByComma;
-	std::vector<std::string> splitByColon;
-
+	//Function to parse json string of below format
+	//"{patient id: ATRJIW433, SPO2 : 96, pulse rate : 75, temperature : 198.6 }"
 	PatientData Parser::parseJsonData(string json)
 	{
 		splitByComma.clear();
