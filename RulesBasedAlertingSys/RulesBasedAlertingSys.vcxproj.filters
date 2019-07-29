@@ -50,9 +50,6 @@
     <ClInclude Include="ConsoleColor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RBASSemaphore.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SemaphoreRBAS.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -27,11 +27,7 @@ namespace alertingsystem
         std::chrono::seconds interval(INTERVAL); // 10 seconds
         while (true)
         {
-            //std::this_thread::sleep_for(std::chrono::seconds(1));
-            //m_protection.lock();
-
             pthread_mutex_lock(&SemaphoreRBAS::getMutex());
-
 
             PatientData patientData = m_buffer->m_patientData;
 
@@ -68,8 +64,6 @@ namespace alertingsystem
                 cout << red << "Emergency situation, alerting nurse!!!";// In Red
                 cout << endl;
             }
-
-            //m_protection.unlock();
             pthread_mutex_unlock(&SemaphoreRBAS::getMutex());
             std::this_thread::sleep_for(interval);
         }

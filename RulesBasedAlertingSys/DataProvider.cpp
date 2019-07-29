@@ -51,9 +51,6 @@ namespace alertingsystem
         std::chrono::seconds interval(INTERVAL); // 10 seconds
         while (true)
         {
-
-            //std::this_thread::sleep_for(std::chrono::seconds(1));
-           // m_protection.lock();
             pthread_mutex_lock(&SemaphoreRBAS::getMutex());
 
             string jsonData = generateData();
@@ -63,9 +60,6 @@ namespace alertingsystem
             PatientData patientData = Parser::parseJsonData(jsonData);
             pushDataToBuffer(patientData);
 
-            //std::this_thread::sleep_for(std::chrono::seconds(20));
-
-            //m_protection.unlock();
             pthread_mutex_unlock(&SemaphoreRBAS::getMutex());
 
             std::this_thread::sleep_for(interval);
@@ -83,7 +77,6 @@ namespace alertingsystem
     //this function pushes the data to the buffer.
     void DataProvider::pushDataToBuffer(PatientData patientData)
     {
-        //PatientData tempPatientData(patientData.m_patientId, patientData.m_SPO2, patientData.m_pulseRate, patientData.m_temperature);
         m_buffer->m_patientData.m_patientId = patientData.m_patientId;
         m_buffer->m_patientData.m_SPO2 = patientData.m_SPO2;
         m_buffer->m_patientData.m_pulseRate = patientData.m_pulseRate;

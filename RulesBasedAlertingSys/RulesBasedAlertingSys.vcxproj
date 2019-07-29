@@ -192,7 +192,6 @@
     <ClInclude Include="DataProvider.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="PatientData.h" />
-    <ClInclude Include="RBASSemaphore.h" />
     <ClInclude Include="SemaphoreRBAS.h" />
   </ItemGroup>
   <ItemGroup>
