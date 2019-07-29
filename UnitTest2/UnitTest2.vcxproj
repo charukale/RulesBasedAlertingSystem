@@ -77,34 +77,36 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\bin</OutDir>
-    <IncludePath>$(SolutionDir)bin\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)bin\;$(IncludePath);$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\</IncludePath>
+    <LibraryPath>$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\bin</OutDir>
-    <IncludePath>$(SolutionDir)bin\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)bin\;$(IncludePath);$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\320050715\OneDrive - Philips\Documents\Visual Studio 2015\Projects\RulesBasedAlertingSys\RulesBasedAlertingSys;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)bin\;$(SolutionDir)RulesBasedAlertingSys;$(VCInstallDir)UnitTest\include;$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\;\$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\320050715\OneDrive - Philips\Documents\Visual Studio 2015\Projects\RulesBasedAlertingSys\RulesBasedAlertingSys;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)bin\;$(SolutionDir)RulesBasedAlertingSys;$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)bin\;$(SolutionDir)RulesBasedAlertingSys;$(VCInstallDir)UnitTest\include;$(SolutionDir)packages\pthreads.2.9.1.4\build\native\include;$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\;$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>RulesBasedAlertingSystem.lib;$(SolutionDir)bin\Parser.obj;$(SolutionDir)bin\DataProvider.obj;$(SolutionDir)bin\DataValidator.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>RulesBasedAlertingSystem.lib;pthreadVC2.lib;Parser.obj;DataProvider.obj;DataValidator.obj</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -112,14 +114,14 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)bin\;$(SolutionDir)RulesBasedAlertingSys;$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)bin\;$(SolutionDir)RulesBasedAlertingSys;$(VCInstallDir)UnitTest\include;$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\;$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>RulesBasedAlertingSystem.lib;C:\Users\320050715\OneDrive - Philips\Documents\Visual Studio 2015\Projects\RulesBasedAlertingSys\RulesBasedAlertingSys\Debug\Parser.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>RulesBasedAlertingSystem.lib;pthreadVC2.lib;Parser.obj;DataProvider.obj;DataValidator.obj</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -129,16 +131,17 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>C:\Users\320050715\OneDrive - Philips\Documents\Visual Studio 2015\Projects\RulesBasedAlertingSys\RulesBasedAlertingSys\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)bin\;$(SolutionDir)RulesBasedAlertingSys;$(VCInstallDir)UnitTest\include;$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
-      <AdditionalUsingDirectories>C:\Users\320050715\OneDrive - Philips\Documents\Visual Studio 2015\Projects\RulesBasedAlertingSys\RulesBasedAlertingSys</AdditionalUsingDirectories>
+      <AdditionalUsingDirectories>$(SolutionDir)bin\;$(SolutionDir)RulesBasedAlertingSys;$(VCInstallDir)UnitTest\include;$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\;%(AdditionalIncludeDirectories)</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>RulesBasedAlertingSystem.lib;pthreadVC2.lib;Parser.obj;DataProvider.obj;DataValidator.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -148,16 +151,17 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>C:\Users\320050715\OneDrive - Philips\Documents\Visual Studio 2015\Projects\RulesBasedAlertingSys\RulesBasedAlertingSys\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)bin\;$(SolutionDir)RulesBasedAlertingSys;$(VCInstallDir)UnitTest\include;$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
-      <AdditionalUsingDirectories>C:\Users\320050715\OneDrive - Philips\Documents\Visual Studio 2015\Projects\RulesBasedAlertingSys\RulesBasedAlertingSys</AdditionalUsingDirectories>
+      <AdditionalUsingDirectories>$(SolutionDir)bin\;$(SolutionDir)RulesBasedAlertingSys;$(VCInstallDir)UnitTest\include;$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\;%(AdditionalIncludeDirectories)</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>RulesBasedAlertingSystem.lib;pthreadVC2.lib;Parser.obj;DataProvider.obj;DataValidator.obj;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

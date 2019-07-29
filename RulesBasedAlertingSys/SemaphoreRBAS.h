@@ -13,6 +13,6 @@ namespace alertingsystem
         {
             pthread_mutex_init(&(SemaphoreRBAS::getMutex()), 0);
         }
-        static pthread_mutex_t& getMutex();
+        __declspec(dllexport) static pthread_mutex_t& getMutex();
     };
 }

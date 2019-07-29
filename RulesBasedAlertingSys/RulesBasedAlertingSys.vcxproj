@@ -73,30 +73,35 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin</OutDir>
-    <LibraryPath>$(SolutionDir)bin\;$(LibraryPath);C:\Users\320050715\OneDrive - Philips\Documents\Visual Studio 2015\Projects\RulesBasedAlertingSys\packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86</LibraryPath>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Users\320050715\OneDrive - Philips\Documents\Visual Studio 2015\Projects\RulesBasedAlertingSys\packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\</IncludePath>
+    <LibraryPath>$(SolutionDir)bin\;$(LibraryPath);$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin</OutDir>
-    <LibraryPath>$(SolutionDir)bin\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)bin\;$(LibraryPath);$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin</OutDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\</IncludePath>
+    <LibraryPath>$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin</OutDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\</IncludePath>
+    <LibraryPath>$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(LocalDebuggerWorkingDirectory);C:\Users\320050715\OneDrive - Philips\Documents\Visual Studio 2015\Projects\RulesBasedAlertingSys\packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(LocalDebuggerWorkingDirectory);$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\</AdditionalIncludeDirectories>
       <ObjectFileName>$(SolutionDir)bin\</ObjectFileName>
       <AssemblerListingLocation>$(SolutionDir)bin\</AssemblerListingLocation>
     </ClCompile>
@@ -112,10 +117,10 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(LocalDebuggerWorkingDirectory);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(LocalDebuggerWorkingDirectory);$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\</AdditionalIncludeDirectories>
       <ObjectFileName>$(SolutionDir)bin\</ObjectFileName>
       <AssemblerListingLocation>$(SolutionDir)bin\</AssemblerListingLocation>
     </ClCompile>
@@ -124,6 +129,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>pthreadVC2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -135,7 +141,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(LocalDebuggerWorkingDirectory);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(LocalDebuggerWorkingDirectory);$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(SolutionDir)bin\</AssemblerListingLocation>
       <ObjectFileName>$(SolutionDir)bin\</ObjectFileName>
     </ClCompile>
@@ -145,6 +151,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
+      <AdditionalDependencies>pthreadVC2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -156,7 +163,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(LocalDebuggerWorkingDirectory);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(LocalDebuggerWorkingDirectory);$(SolutionDir)packages\pthreads-w32-2-9-1-release\Pre-built.2\lib\x86\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(SolutionDir)bin\</AssemblerListingLocation>
       <ObjectFileName>$(SolutionDir)bin\</ObjectFileName>
     </ClCompile>
@@ -166,6 +173,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
+      <AdditionalDependencies>pthreadVC2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

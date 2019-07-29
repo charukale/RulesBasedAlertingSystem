@@ -12,7 +12,6 @@
 #include <Parser.h>
 #include <PatientData.h>
 #include <Constants.h>
-#include <pthread.h>
 
 namespace alertingsystem
 {
@@ -36,7 +35,7 @@ namespace alertingsystem
         }
         //this function checks for the validity of the data.
         void validateData();
-        static bool checkItem(ItemType itemType, double itemValue);
+        __declspec(dllexport) static bool checkItem(ItemType itemType, double itemValue);
     };
 }
 

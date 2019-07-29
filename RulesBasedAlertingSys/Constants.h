@@ -20,15 +20,12 @@ namespace alertingsystem
     const double MIN_SPO2 = 95;
     const double MAX_SPO2 = 100;
     const int INTERVAL = 10;
-    //static mutex m_protection;
    
 
     //this function randomly generates patient's information in json format.
     static double randomizeDouble(double nMin, double nMax)
     {
         //return nMin + (double)((double)rand() / (RAND_MAX + 1) * (nMax - nMin + 1));
-
-        //return (double)rand() % nMax + nMin + 1;
         double range = (nMax - nMin) + 1;
         return (int)(nMin + double(range*rand() / (RAND_MAX + 1.0)));
     }

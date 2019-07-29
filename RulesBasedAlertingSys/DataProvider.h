@@ -20,7 +20,7 @@
 #include <Parser.h>
 #include <ConsoleColor.h>
 #include <Constants.h>
-#include <pthread.h>
+//#include <pthread.h>
 
 using namespace std;
 

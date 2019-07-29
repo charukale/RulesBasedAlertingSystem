@@ -12,7 +12,7 @@
 #include <ConsoleColor.h>
 #include <mutex>
 #include <SemaphoreRBAS.h>
-
+#include <pthread.h>
 
 using namespace std;
 
