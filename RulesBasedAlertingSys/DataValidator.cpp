@@ -8,103 +8,110 @@
 
 #pragma once
 
-#include<iostream>
-#include<string>
-#include <chrono>
-#include <thread>
 #include <DataValidator.h>
 #include <ConsoleColor.h>
+#include <mutex>
+#include <SemaphoreRBAS.h>
+
 
 using namespace std;
 
 namespace alertingsystem
 {
-	// Function to validate the data present in buffer
-	// If data is out of range then alert the nurse.
-	void DataValidator::validateData()
-	{
-		std::chrono::seconds interval(INTERVAL); // 10 seconds
-		while (true)
-		{
-			PatientData patientData = m_buffer->m_patientData;
 
-			string id = patientData.m_patientId;
-			//normal range spo2 = 95 - 100;
-			double spo2 = patientData.m_SPO2;
-			//normal range temp 97 - 99
-			double temperature = patientData.m_temperature;
-			//normal range PR 60 - 100
-			double pulseRate = patientData.m_pulseRate;
+    // Function to validate the data present in buffer
+    // If data is out of range then alert the nurse.
+    void DataValidator::validateData()
+    {
 
-			bool isSPO2InRange = checkItem(ItemType::SPO2, spo2);
-			bool isTemperatureInRange = checkItem(ItemType::Temperature, temperature);
-			bool isPulseRateInRange = checkItem(ItemType::PulseRate, pulseRate);
+        std::chrono::seconds interval(INTERVAL); // 10 seconds
+        while (true)
+        {
+            //std::this_thread::sleep_for(std::chrono::seconds(1));
+            //m_protection.lock();
 
-			if (!isSPO2InRange)
-			{
-				cout << red  << "Alert!!! SPO2 not in range. SPO2:" << spo2 << " for patient " << blue << id;
-				cout << endl;
-			}
-			if (!isTemperatureInRange)
-			{
-				cout << red << "Alert!!! Temparature not in range. Temparature:" << temperature << " for patient " << blue << id;
-				cout << endl;
-			}
-			if (!isPulseRateInRange)
-			{
-				cout << red << "Alert!!! Pulse Rate not in range. Pulse Rate:" << pulseRate << " for patient " << blue << id;
-				cout << endl;
-			}
+            pthread_mutex_lock(&SemaphoreRBAS::getMutex());
 
-			if (!isSPO2InRange || !isTemperatureInRange || !isPulseRateInRange)
-			{
-				cout << red << "Emergency situation, alerting nurse!!!";// In Red
-				cout << endl;
-			}
 
-			std::this_thread::sleep_for(interval);
-		}		
-	}
+            PatientData patientData = m_buffer->m_patientData;
 
-	// Check the value for the data type.
-	// If value is in raneg, return true else false.
-	bool DataValidator::checkItem(ItemType itemType, double itemValue)
-	{
-		bool isInRange = false;
+            string id = patientData.m_patientId;
+            //normal range spo2 = 95 - 100;
+            double spo2 = patientData.m_SPO2;
+            //normal range temp 97 - 99
+            double temperature = patientData.m_temperature;
+            //normal range PR 60 - 100
+            double pulseRate = patientData.m_pulseRate;
 
-		switch (itemType)
-		{
-		case ItemType::SPO2:
-		{
-			if (itemValue > MIN_SPO2 && itemValue < MAX_SPO2)
-			{
-				isInRange = true;
-			}
-		}
-		break;
-		case ItemType::PulseRate:
-		{
-			if (itemValue > MIN_PULSE_RATE && itemValue < MAX_PULSE_RATE)
-			{
-				isInRange = true;
-			}
-		}
-		break;
-		case ItemType::Temperature:
-		{
-			if (itemValue > MIN_TEMPERATURE && itemValue < MAX_TEMPERATURE)
-			{
-				isInRange = true;
-			}
-		}
-		break;
-		default:
-			break; {
-			}
-		}	
+            bool isSPO2InRange = checkItem(ItemType::SPO2, spo2);
+            bool isTemperatureInRange = checkItem(ItemType::Temperature, temperature);
+            bool isPulseRateInRange = checkItem(ItemType::PulseRate, pulseRate);
 
-		return isInRange;
-	}
+            if (!isSPO2InRange)
+            {
+                cout << red << "Alert!!! SPO2 not in range. SPO2:" << spo2 << " for patient " << blue << id;
+                cout << endl;
+            }
+            if (!isTemperatureInRange)
+            {
+                cout << red << "Alert!!! Temparature not in range. Temparature:" << temperature << " for patient " << blue << id;
+                cout << endl;
+            }
+            if (!isPulseRateInRange)
+            {
+                cout << red << "Alert!!! Pulse Rate not in range. Pulse Rate:" << pulseRate << " for patient " << blue << id;
+                cout << endl;
+            }
+
+            if (!isSPO2InRange || !isTemperatureInRange || !isPulseRateInRange)
+            {
+                cout << red << "Emergency situation, alerting nurse!!!";// In Red
+                cout << endl;
+            }
+
+            //m_protection.unlock();
+            pthread_mutex_unlock(&SemaphoreRBAS::getMutex());
+            std::this_thread::sleep_for(interval);
+        }
+    }
+
+    // Check the value for the data type.
+    // If value is in raneg, return true else false.
+    bool DataValidator::checkItem(ItemType itemType, double itemValue)
+    {
+        bool isInRange = false;
+
+        switch (itemType)
+        {
+        case ItemType::SPO2:
+        {
+            if (itemValue >= MIN_SPO2 && itemValue <= MAX_SPO2)
+            {
+                isInRange = true;
+            }
+        }
+        break;
+        case ItemType::PulseRate:
+        {
+            if (itemValue >= MIN_PULSE_RATE && itemValue <= MAX_PULSE_RATE)
+            {
+                isInRange = true;
+            }
+        }
+        break;
+        case ItemType::Temperature:
+        {
+            if (itemValue >= MIN_TEMPERATURE && itemValue <= MAX_TEMPERATURE)
+            {
+                isInRange = true;
+            }
+        }
+        break;
+        default:
+            break; {
+            }
+        }
+
+        return isInRange;
+    }
 }
-
-	

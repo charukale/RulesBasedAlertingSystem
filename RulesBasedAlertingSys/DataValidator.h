@@ -12,24 +12,31 @@
 #include <Parser.h>
 #include <PatientData.h>
 #include <Constants.h>
+#include <pthread.h>
 
 namespace alertingsystem
 {
-	class DataValidator
-	{
-	private:
-		Buffer *m_buffer;
-		
-		bool DataValidator::checkItem(ItemType itemType, double itemValue);
-	public:
-		//parameterized constructor.
-		DataValidator(Buffer *buffer)
-		{
-			m_buffer = buffer;
-		}
-		//this function checks for the validity of the data.
-		void validateData();
-	};
-
+    //----------------------------------------------------------------------------
+    //: Class:             DataValidator
+    //: 
+    //:   This class is taking parsed JSON string from Buffer.
+    //:   It will perform check operation for vital signs range.
+    //:
+    //---------------------------------------------------------------------------- 
+    class DataValidator
+    {
+    private:
+        Buffer *m_buffer;
+    public:
+        DataValidator() {};
+        //parameterized constructor.
+        DataValidator(Buffer *buffer)
+        {
+            m_buffer = buffer;
+        }
+        //this function checks for the validity of the data.
+        void validateData();
+        static bool checkItem(ItemType itemType, double itemValue);
+    };
 }
 

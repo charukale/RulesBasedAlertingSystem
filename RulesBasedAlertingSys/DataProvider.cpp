@@ -8,75 +8,85 @@
 
 #pragma once
 
-#include <iostream> 
-#include <iterator> 
-#include<string>
-#include <chrono>
-#include <thread>
-#include<list>
 #include <DataProvider.h>
-#include <Parser.h>
-#include <ConsoleColor.h>
-#include <Constants.h>
+#include <RBASSemaphore.h>
+#include <mutex>
+#include <SemaphoreRBAS.h>
 
+using namespace std;
+
+using namespace pthreadMutex;
 
 namespace alertingsystem
 {
-	//this function will generate the json data using randomizeDouble() function for patient id, sp02,pulserate,temperature.
-	string DataProvider::generateData()
-	{
-		if (m_idCounter == 0)
-		{
-			m_patientId = (int)randomizeDouble(1111, 9999);
-		}
-		m_idCounter += 1;
 
-		if (m_idCounter == 10)
-		{
-			m_idCounter = 0;
-		}
+    //this function will generate the json data using randomizeDouble() function for patient id, sp02,pulserate,temperature.
+    string DataProvider::generateData()
+    {
 
-		double spo2 = randomizeDouble(MIN_SPO2, MAX_SPO2 + 0.5);
-		double pulseRate = randomizeDouble(MIN_PULSE_RATE, MAX_PULSE_RATE + 0.5);
-		double temperature = randomizeDouble(MIN_TEMPERATURE, MAX_TEMPERATURE + 0.5);
+        if (m_idCounter == 0)
+        {
+            m_patientId = (int)randomizeDouble(1111, 9999);
+        }
+        m_idCounter += 1;
 
-	    return
-			"{patient id: Patient_" + std::to_string(m_patientId) + ", SPO2 :" + std::to_string(spo2) +
-			", pulse rate : " + std::to_string(pulseRate) + 
-			", temperature : " + std::to_string(temperature) + " }";
-	}
+        if (m_idCounter == 10)
+        {
+            m_idCounter = 0;
+        }
 
-	//this function has timer which calls printData() and pushDataToBuffer() every 10 seconds.
-	void DataProvider::startOperation()
-	{
-		std::chrono::seconds interval(INTERVAL); // 10 seconds
-		while(true)
-		{
-			string jsonData = generateData();
-			printData(jsonData);
+        double spo2 = randomizeDouble(MIN_SPO2 -1, MAX_SPO2);
+        double pulseRate = randomizeDouble(MIN_PULSE_RATE -1, MAX_PULSE_RATE);
+        double temperature = randomizeDouble(MIN_TEMPERATURE, MAX_TEMPERATURE);
 
-			PatientData patientData = Parser::parseJsonData(jsonData);
-			pushDataToBuffer(patientData);
+        return
+            "{patient id: Patient_" + std::to_string(m_patientId) + ", SPO2 :" + std::to_string(spo2) +
+            ", pulse rate : " + std::to_string(pulseRate) +
+            ", temperature : " + std::to_string(temperature) + " }";
+    }
 
-			std::this_thread::sleep_for(interval);
-		}
-	}
+    //this function has timer which calls printData() and pushDataToBuffer() every 10 seconds.
+    void DataProvider::startOperation()
+    {
+        std::chrono::seconds interval(INTERVAL); // 10 seconds
+        while (true)
+        {
 
-	//prints the data on the console every 10 seconds.
-	void DataProvider::printData(string strData)
-	{
-		cout <<  yellow<< (strData);
-		cout << '\n';
-	}
+            //std::this_thread::sleep_for(std::chrono::seconds(1));
+           // m_protection.lock();
+            pthread_mutex_lock(&SemaphoreRBAS::getMutex());
 
-	//this function pushes the data to the buffer.
-	void DataProvider::pushDataToBuffer(PatientData patientData)
-	{
-		//PatientData tempPatientData(patientData.m_patientId, patientData.m_SPO2, patientData.m_pulseRate, patientData.m_temperature);
-		m_buffer->m_patientData.m_patientId = patientData.m_patientId;
-		m_buffer->m_patientData.m_SPO2 = patientData.m_SPO2;
-		m_buffer->m_patientData.m_pulseRate = patientData.m_pulseRate;
-		m_buffer->m_patientData.m_temperature = patientData.m_temperature;
-	}
+            string jsonData = generateData();
+            printData(jsonData);
 
+
+            PatientData patientData = Parser::parseJsonData(jsonData);
+            pushDataToBuffer(patientData);
+
+            //std::this_thread::sleep_for(std::chrono::seconds(20));
+
+            //m_protection.unlock();
+            pthread_mutex_unlock(&SemaphoreRBAS::getMutex());
+
+            std::this_thread::sleep_for(interval);
+        }
+    }
+
+    //prints the data on the console every 10 seconds.
+    void DataProvider::printData(string strData)
+    {
+        cout << yellow << (strData);
+        cout << '\n';
+        Beep(1000, 500);
+    }
+
+    //this function pushes the data to the buffer.
+    void DataProvider::pushDataToBuffer(PatientData patientData)
+    {
+        //PatientData tempPatientData(patientData.m_patientId, patientData.m_SPO2, patientData.m_pulseRate, patientData.m_temperature);
+        m_buffer->m_patientData.m_patientId = patientData.m_patientId;
+        m_buffer->m_patientData.m_SPO2 = patientData.m_SPO2;
+        m_buffer->m_patientData.m_pulseRate = patientData.m_pulseRate;
+        m_buffer->m_patientData.m_temperature = patientData.m_temperature;
+    }
 }
