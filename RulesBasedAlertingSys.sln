@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RulesBasedAlertingSystem", "RulesBasedAlertingSys\RulesBasedAlertingSys.vcxproj", "{741BC467-4E93-4CC5-B5C5-BB96CF3C02EB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest2", "UnitTest2\UnitTest2.vcxproj", "{F4DEAA81-E0F4-473A-8FBD-74404D5D70DF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestAgent_RBAS", "UnitTest2\UnitTest2.vcxproj", "{F4DEAA81-E0F4-473A-8FBD-74404D5D70DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
