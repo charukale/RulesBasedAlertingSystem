@@ -71,8 +71,6 @@ namespace alertingsystem
 
 
             pthread_mutex_unlock(&SemaphoreRBAS::getMutex());
-
-
         }
     }
 
@@ -81,7 +79,7 @@ namespace alertingsystem
     {
         cout << yellow << (strData);
         cout << '\n';
-        Beep(200,500);
+        Beep(1000,500);
     }
 
 }

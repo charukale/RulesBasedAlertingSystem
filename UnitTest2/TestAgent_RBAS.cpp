@@ -20,7 +20,7 @@ namespace UnitTest2
 
         TEST_METHOD(parseJsonString_TestCase1)
         {
-            string jsonData = "{patient id: Patient_" + std::to_string(11) + " SPO2 :" + std::to_string(11) +
+            string jsonData = "{patient id: Patient_" + std::to_string(11) + ", SPO2 :" + std::to_string(11) +
                 ", pulse rate : " + std::to_string(11) +
                 ", temperature : " + std::to_string(11) + " }";
             PatientData p_data = Parser::parseJsonData(jsonData);

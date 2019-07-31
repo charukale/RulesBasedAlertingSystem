@@ -57,8 +57,7 @@ namespace alertingsystem
         {
             cout << red << "Emergency situation, alerting nurse!!!";// In Red
             cout << endl;
-            Beep(2000, 500);
-
+            Beep(2000, 2000);
         }
 
         BufferQueue::patientDataQueue.pop();
@@ -73,7 +72,6 @@ namespace alertingsystem
         {
             pthread_mutex_lock(&SemaphoreRBAS::getMutex());
 
-           // PatientData patientData = m_buffer->m_patientData;
             if (!BufferQueue::patientDataQueue.empty())
             {
                 ProcessPatientDataQueue();
