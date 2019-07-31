@@ -193,6 +193,7 @@ xcopy /y "$(SolutionDir)pthreadVC2.lib" "$(SolutionDir)bin\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BufferQueue.cpp" />
     <ClCompile Include="DataValidator.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
@@ -208,6 +209,7 @@ xcopy /y "$(SolutionDir)pthreadVC2.lib" "$(SolutionDir)bin\"</Command>
     <ClCompile Include="SemaphoreRBAS.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BufferQueue.h" />
     <ClInclude Include="ConsoleColor.h" />
     <ClInclude Include="Constants.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>

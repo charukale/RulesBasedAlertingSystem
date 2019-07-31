@@ -9,6 +9,7 @@
 #pragma once
 #include<iostream>
 #include<string>
+#include<queue>
 using namespace std;
 
 namespace alertingsystem
@@ -35,15 +36,4 @@ namespace alertingsystem
         }
 
     };
-
-    //Buffer class to store the parsed data. 
-    class Buffer
-    {
-    public:
-        //default constructor of Buffer class
-        Buffer() {};
-        //creating the object of PatientData class.
-        PatientData m_patientData;
-    };
-
 }

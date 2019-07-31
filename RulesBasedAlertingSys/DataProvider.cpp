@@ -13,6 +13,10 @@
 #include <mutex>
 #include <SemaphoreRBAS.h>
 #include <pthread.h>
+
+
+using namespace bufferqueue;
+
 using namespace std;
 
 using namespace pthreadMutex;
@@ -48,7 +52,7 @@ namespace alertingsystem
     //this function has timer which calls printData() and pushDataToBuffer() every 10 seconds.
     void DataProvider::startOperation()
     {
-        std::chrono::seconds interval(INTERVAL); // 10 seconds
+       std::chrono::seconds interval(INTERVAL); // 10 seconds
         while (true)
         {
             pthread_mutex_lock(&SemaphoreRBAS::getMutex());
@@ -56,13 +60,19 @@ namespace alertingsystem
             string jsonData = generateData();
             printData(jsonData);
 
-
             PatientData patientData = Parser::parseJsonData(jsonData);
-            pushDataToBuffer(patientData);
+         
+          //pushing data to shared queue
+            BufferQueue::patientDataQueue.push(patientData);
 
             pthread_mutex_unlock(&SemaphoreRBAS::getMutex());
 
             std::this_thread::sleep_for(interval);
+
+
+            pthread_mutex_unlock(&SemaphoreRBAS::getMutex());
+
+
         }
     }
 
@@ -71,15 +81,7 @@ namespace alertingsystem
     {
         cout << yellow << (strData);
         cout << '\n';
-        Beep(1000, 500);
+        Beep(200,500);
     }
 
-    //this function pushes the data to the buffer.
-    void DataProvider::pushDataToBuffer(PatientData patientData)
-    {
-        m_buffer->m_patientData.m_patientId = patientData.m_patientId;
-        m_buffer->m_patientData.m_SPO2 = patientData.m_SPO2;
-        m_buffer->m_patientData.m_pulseRate = patientData.m_pulseRate;
-        m_buffer->m_patientData.m_temperature = patientData.m_temperature;
-    }
 }

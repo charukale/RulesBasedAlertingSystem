@@ -5,8 +5,8 @@ namespace alertingsystem
 {
     class SemaphoreRBAS {
 
-    private:
         static pthread_mutex_t m_mutexInstance;
+        // Getting the mutex 
 
     public:
         static void SemaphoreRBAS::initialize()

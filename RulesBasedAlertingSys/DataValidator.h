@@ -12,6 +12,7 @@
 #include <Parser.h>
 #include <PatientData.h>
 #include <Constants.h>
+#include<BufferQueue.h>
 
 namespace alertingsystem
 {
@@ -24,17 +25,11 @@ namespace alertingsystem
     //---------------------------------------------------------------------------- 
     class DataValidator
     {
-    private:
-        Buffer *m_buffer;
+    
     public:
-        DataValidator() {};
-        //parameterized constructor.
-        DataValidator(Buffer *buffer)
-        {
-            m_buffer = buffer;
-        }
         //this function checks for the validity of the data.
         void validateData();
+        void ProcessPatientDataQueue();
         __declspec(dllexport) static bool checkItem(ItemType itemType, double itemValue);
     };
 }

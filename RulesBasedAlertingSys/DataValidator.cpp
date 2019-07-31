@@ -14,11 +14,55 @@
 #include <SemaphoreRBAS.h>
 #include <pthread.h>
 
+
 using namespace std;
+using namespace bufferqueue;
 
 namespace alertingsystem
 {
 
+    void DataValidator::ProcessPatientDataQueue()
+    {
+        PatientData patientData = BufferQueue::patientDataQueue.front();
+
+        string id = patientData.m_patientId;
+        //normal range spo2 = 95 - 100;
+        double spo2 = patientData.m_SPO2;
+        //normal range temp 97 - 99
+        double temperature = patientData.m_temperature;
+        //normal range PR 60 - 100
+        double pulseRate = patientData.m_pulseRate;
+
+        bool isSPO2InRange = checkItem(ItemType::SPO2, spo2);
+        bool isTemperatureInRange = checkItem(ItemType::Temperature, temperature);
+        bool isPulseRateInRange = checkItem(ItemType::PulseRate, pulseRate);
+
+        if (!isSPO2InRange)
+        {
+            cout << red << "Alert!!! SPO2 not in range. SPO2:" << spo2 << " for patient " << blue << id;
+            cout << endl;
+        }
+        if (!isTemperatureInRange)
+        {
+            cout << red << "Alert!!! Temparature not in range. Temparature:" << temperature << " for patient " << blue << id;
+            cout << endl;
+        }
+        if (!isPulseRateInRange)
+        {
+            cout << red << "Alert!!! Pulse Rate not in range. Pulse Rate:" << pulseRate << " for patient " << blue << id;
+            cout << endl;
+        }
+
+        if (!isSPO2InRange || !isTemperatureInRange || !isPulseRateInRange)
+        {
+            cout << red << "Emergency situation, alerting nurse!!!";// In Red
+            cout << endl;
+            Beep(2000, 500);
+
+        }
+
+        BufferQueue::patientDataQueue.pop();
+    }
     // Function to validate the data present in buffer
     // If data is out of range then alert the nurse.
     void DataValidator::validateData()
@@ -29,40 +73,10 @@ namespace alertingsystem
         {
             pthread_mutex_lock(&SemaphoreRBAS::getMutex());
 
-            PatientData patientData = m_buffer->m_patientData;
-
-            string id = patientData.m_patientId;
-            //normal range spo2 = 95 - 100;
-            double spo2 = patientData.m_SPO2;
-            //normal range temp 97 - 99
-            double temperature = patientData.m_temperature;
-            //normal range PR 60 - 100
-            double pulseRate = patientData.m_pulseRate;
-
-            bool isSPO2InRange = checkItem(ItemType::SPO2, spo2);
-            bool isTemperatureInRange = checkItem(ItemType::Temperature, temperature);
-            bool isPulseRateInRange = checkItem(ItemType::PulseRate, pulseRate);
-
-            if (!isSPO2InRange)
+           // PatientData patientData = m_buffer->m_patientData;
+            if (!BufferQueue::patientDataQueue.empty())
             {
-                cout << red << "Alert!!! SPO2 not in range. SPO2:" << spo2 << " for patient " << blue << id;
-                cout << endl;
-            }
-            if (!isTemperatureInRange)
-            {
-                cout << red << "Alert!!! Temparature not in range. Temparature:" << temperature << " for patient " << blue << id;
-                cout << endl;
-            }
-            if (!isPulseRateInRange)
-            {
-                cout << red << "Alert!!! Pulse Rate not in range. Pulse Rate:" << pulseRate << " for patient " << blue << id;
-                cout << endl;
-            }
-
-            if (!isSPO2InRange || !isTemperatureInRange || !isPulseRateInRange)
-            {
-                cout << red << "Emergency situation, alerting nurse!!!";// In Red
-                cout << endl;
+                ProcessPatientDataQueue();
             }
             pthread_mutex_unlock(&SemaphoreRBAS::getMutex());
             std::this_thread::sleep_for(interval);

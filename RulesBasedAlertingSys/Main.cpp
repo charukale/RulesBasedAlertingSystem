@@ -16,51 +16,41 @@
 #include <DataValidator.h>
 #include <RBASSemaphore.h>
 #include <SemaphoreRBAS.h>
+#include<BufferQueue.h>
 
 using namespace std;
 
 using namespace pthreadMutex;
 using namespace alertingsystem;
+using namespace bufferqueue;
 
 //this thread calls the startOperation() function.
 typedef void * (*THREADFUNCPTR)(void *);
-void startDPThread(DataProvider *dataProvider)
+
+void startDPThread(DataProvider dataProvider)
 {
-    dataProvider->startOperation();
+    dataProvider.startOperation();
 }
 
 //this thread calls the validateData() function.
-void startDVThread(DataValidator *dataValidator)
+void startDVThread(DataValidator dataValidator)
 {
-    dataValidator->validateData();
+    dataValidator.validateData();
 }
 
 int main()
 {
-    //creating the the object of buffer class.
-    Buffer buffer;
-
-    //buffer object is passed as parameter to the dataProvider
-    DataProvider dataProvider(&buffer);
-
-    ////buffer object is passed as parameter to the dataProvider
-    DataValidator dataValidator(&buffer);
-
-    pthread_t thread1;
-    pthread_t thread2;
+    pthread_t producerThread;
+    pthread_t consumerThread;
 
     SemaphoreRBAS::initialize();
     
     //this thread calls the startDPThread function and dataProvider
-    pthread_create(&thread1, NULL, (THREADFUNCPTR)startDPThread, &dataProvider);
-    std::this_thread::sleep_for(std::chrono::seconds(2));
-    pthread_create(&thread2, NULL, (THREADFUNCPTR)startDVThread, &dataValidator);
+    pthread_create(&producerThread, NULL, (THREADFUNCPTR)startDPThread, NULL);
+    pthread_create(&consumerThread, NULL, (THREADFUNCPTR)startDVThread, NULL);
 
-    pthread_join(thread2, 0);
-    pthread_join(thread1, 0);
-
-    pthread_mutex_destroy(&SemaphoreRBAS::getMutex());
-
+    pthread_join(consumerThread, 0);
+    pthread_join(producerThread, 0);
 
     return 0;
 }

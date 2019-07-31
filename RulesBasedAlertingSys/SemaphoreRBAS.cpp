@@ -6,6 +6,7 @@
 namespace alertingsystem
 {
     pthread_mutex_t SemaphoreRBAS::m_mutexInstance;
+
     pthread_mutex_t& SemaphoreRBAS::getMutex()
     {
         return m_mutexInstance;
